@@ -1,43 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta name="description" content="Login to MISA.SPACE Workspace">
+  
   <title>Login • MISA.SPACE</title>
-
   <link rel="stylesheet" href="style.css">
 
+  <!-- Security -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
 </head>
 
 <body class="center-page">
 
   <div class="glass-card login-card">
+    <h1>Welcome Back</h1>
+    <p class="subtitle">Sign in to continue to MISA.SPACE</p>
 
-    <h2>Welcome Back</h2>
+    <form id="loginForm" novalidate>
+      
+      <div class="input-group">
+        <label for="email">Email Address</label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email"
+          placeholder="you@example.com"
+          autocomplete="username"
+          required
+          autofocus>
+      </div>
 
-    <p class="subtitle">
-      Login to continue into MISA.SPACE
-    </p>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password"
+          placeholder="••••••••"
+          autocomplete="current-password"
+          required>
+      </div>
 
-    <input
-      type="email"
-      id="email"
-      placeholder="Email">
+      <div class="form-options">
+        <label class="remember-me">
+          <input type="checkbox" name="remember">
+          Remember me
+        </label>
+        <a href="#" class="forgot-link">Forgot password?</a>
+      </div>
 
-    <input
-      type="password"
-      id="password"
-      placeholder="Password">
+      <button type="submit" id="loginBtn">
+        Enter Workspace
+      </button>
 
-    <button id="loginBtn">
-      Enter Workspace
-    </button>
+      <!-- Error message area -->
+      <p id="errorMessage" class="error-message" role="alert"></p>
 
+    </form>
+
+    <div class="signup-link">
+      Don't have an account? 
+      <a href="#">Sign up</a>
+    </div>
   </div>
 
   <script src="script.js"></script>
-
 </body>
 </html>

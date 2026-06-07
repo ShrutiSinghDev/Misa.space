@@ -1,578 +1,272 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap');
-{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-body{ 
-  font-family:'Inter',sans-serif;
-   color:white; 
-   min-height:100vh; 
-   overflow-x:hidden;
 
-   background: 
-   linear-gradient(
-     rgba(5,8,20,0.55),
-      rgba(5,8,20,0.65) 
-      ),
-       url("./assets/bg/anime.jpg");
+body { 
+  font-family: 'Inter', sans-serif;
+  color: white; 
+  min-height: 100vh; 
+  overflow-x: hidden;
 
-       background-size:cover; 
-       background-position:center;
-        background-repeat:no-repeat; 
-        background-attachment:fixed;
-       }
-       .stars, 
-       .stars2, 
-       .stars3{ 
-        position:fixed;
-         top:0; 
-         left:0; 
-         width:100%;
-          height:100%; 
-          pointer-events:none;
-           z-index:-1;
-       }
+  background: 
+    linear-gradient(
+      rgba(5, 8, 20, 0.55),
+      rgba(5, 8, 20, 0.65)
+    ),
+    url("./assets/bg/anime.jpg");
 
-       .stars{
-         background-image: 
-         radial-gradient(2px 2px at 20px 30px,#fff,transparent), 
-         radial-gradient(2px 2px at 120px 80px,#fff,transparent),
-          radial-gradient(1px 1px at 250px 40px,#fff,transparent);
-          
-          background-size:300px 300px; 
-          
-          animation:starMove 120s linear infinite;
-         }
-         .stars2{ 
-          background-image: 
-          radial-gradient(2px 2px at 50px 60px,#b57edc,transparent),
-           radial-gradient(2px 2px at 170px 100px,#7d5fff,transparent);
-           
-           background-size:400px 400px; opacity:.6;
-           
-           animation:starMove 180s linear infinite; 
-          }
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  background-attachment: fixed;
+}
 
-          .stars3{ 
-            background-image: 
-            radial-gradient(1px 1px at 100px 100px,#fff,transparent);
-             background-size:500px 500px;
-             
-            opacity:.4;
-            
-            animation:starMove 250s linear infinite;
-           }
-           @keyframes starMove{
+/* Star Backgrounds */
+.stars, 
+.stars2, 
+.stars3 { 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  width: 100%;
+  height: 100%; 
+  pointer-events: none;
+  z-index: -1;
+}
 
-            from{
-              transform:translateY(0);
-            }
-            to{
-              transform:translateY(-600px);
-            }
-          }
-          .glass-card, 
-          .sidebar,
-           .top-bar,
-            .card-box,
-             .chat-panel{
+.stars {
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, #fff, transparent), 
+    radial-gradient(2px 2px at 120px 80px, #fff, transparent),
+    radial-gradient(1px 1px at 250px 40px, #fff, transparent);
+  background-size: 300px 300px; 
+  animation: starMove 120s linear infinite;
+}
 
-              background:rgba(10,12,28,.55);
+.stars2 { 
+  background-image: 
+    radial-gradient(2px 2px at 50px 60px, #b57edc, transparent),
+    radial-gradient(2px 2px at 170px 100px, #7d5fff, transparent);
+  background-size: 400px 400px; 
+  opacity: 0.6;
+  animation: starMove 180s linear infinite; 
+}
 
-              backdrop-filter:blur(25px);
+.stars3 { 
+  background-image: 
+    radial-gradient(1px 1px at 100px 100px, #fff, transparent);
+  background-size: 500px 500px;
+  opacity: 0.4;
+  animation: starMove 250s linear infinite;
+}
 
-              border:1px solid rgba(255,255,255,.08);
+@keyframes starMove {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-600px); }
+}
 
-              border-radius:28px;
+/* Glass Effect */
+.glass-card, 
+.sidebar,
+.top-bar,
+.card-box,
+.chat-panel {
+  background: rgba(10, 12, 28, 0.55);
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.45);
+}
 
-              box-shadow: 
-              0 10px 50px rgba(0,0,0,.45);
-             }
+/* Layout */
+.center-page { 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  min-height: 100vh; 
+}
 
-             .center-page{ 
-              display:flex; 
-              justify-content:center; 
-              align-items:center; 
-              min-height:100vh; 
-            }
+/* Login Card */
+.login-card {
+  width: 420px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column; 
+  gap: 18px; 
+}
 
-            .splash-card{ 
-              text-align:center; 
-            }
+.login-card h1, 
+.login-card h2 { 
+  font-size: 42px; 
+  font-family: 'Space Grotesk', sans-serif;
+}
 
-            .splash-card h1{ 
-              
-              font-size:90px;
-              
-              font-family:'Space Grotesk',sans-serif; 
-              
-              letter-spacing:4px;
-              
-              text-shadow:
-               0 0 30px rgba(181,126,220,.8);
-              
-              }
+.subtitle { 
+  color: rgba(255, 255, 255, 0.75); 
+  margin-bottom: 10px;
+}
 
-              .splash-card p{
-                 margin-top:15px; 
-                 
-                 font-size:20px; 
-                 
-                 color:rgba(255,255,255,.8);
-                
-                }
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
 
-                .login-card{
-                  
-                  width:420px;
-                  
-                  padding:40px;
-                  
-                  display:flex;
-                  
-                  flex-direction:column; 
-                  
-                  gap:18px; }
+input {
+  width: 100%;
+  height: 56px; 
+  border: none; 
+  outline: none;
+  border-radius: 16px; 
+  padding: 0 18px;
+  background: rgba(255, 255, 255, 0.08);
+  color: white; 
+  font-size: 15px;
+}
 
-                  .login-card h2{ 
-                    
-                    font-size:42px; 
-                    
-                    font-family:'Space Grotesk',sans-serif;
-                  
-                  }
+input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
 
-                  .subtitle{ 
-                    
-                    color:rgba(255,255,255,.75); 
-                  
-                  input{
-                    
-                    width:100%;
-                    
-                    height:56px; 
-                    
-                    border:none; 
-                    
-                    outline:none;
-                    
-                    border-radius:16px; 
-                    
-                    padding:0 18px;
-                    
-                    background:rgba(255,255,255,.08);
-                    
-                    color:white; 
-                    
-                    font-size:15px; }
-                  }
+/* Button */
+button {
+  height: 56px;
+  border: none;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #7d5fff, #b57edc);
+  color: white;
+  font-weight: 600; 
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
 
-                  input::placeholder{
-                    color:rgba(255,255,255,.45);
-                  }
+button:hover { 
+  transform: translateY(-4px);
+  box-shadow: 0 0 30px rgba(181, 126, 220, 0.6);
+}
 
-                  button{
-                    
-                    height:56px;
-                    
-                    border:none;
-                    
-                    border-radius:16px;
-                    
-                    background: linear-gradient( 
-                      135deg,
-                       #7d5fff,
-                        #b57edc 
-                        );
+/* Other Components */
+.splash-card { 
+  text-align: center; 
+}
 
-                        color:white;
-                        
-                        font-weight:600; 
-                        
-                        cursor:pointer;
-                        
-                        transition:.3s;
-                      
-                      }
+.splash-card h1 { 
+  font-size: 90px;
+  font-family: 'Space Grotesk', sans-serif; 
+  letter-spacing: 4px;
+  text-shadow: 0 0 30px rgba(181, 126, 220, 0.8);
+}
 
-                      button:hover{ 
-                        
-                        transform:translateY(-4px);
-                        
-                        box-shadow:
-                         0 0 30px rgba(181,126,220,.6);
-                        
-                        }
+.splash-card p {
+  margin-top: 15px; 
+  font-size: 20px; 
+  color: rgba(255, 255, 255, 0.8);
+}
 
-                        .avatar-body{ 
-                          
-                          display:flex; 
-                          
-                          justify-content:center; 
-                          
-                          align-items:center; 
-                          
-                          min-height:100vh; 
-                          
-                          padding:40px;
-                        }
+/* Avatar & Dashboard styles (cleaned) */
+.avatar-body { 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  min-height: 100vh; 
+  padding: 40px;
+}
 
-                        .avatar-container{
-                          
-                          width:100%;
-                           max-width:1200px;
-                           
-                           padding:60px; 
-                           
-                           text-align:center;
-                          
-                          }
+.avatar-grid { 
+  display: flex; 
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px; 
+  margin-bottom: 40px;
+}
 
-                          .avatar-header h1{
-                            
-                            font-size:54px; 
-                            
-                            font-family:'Space Grotesk',sans-serif;
-                            
-                            margin-bottom:15px;
-                          
-                          }
+.avatar-card { 
+  width: 260px; 
+  padding: 30px; 
+  border-radius: 24px; 
+  background: rgba(255, 255, 255, 0.05); 
+  border: 2px solid transparent; 
+  cursor: pointer; 
+  transition: 0.3s; 
+}
 
-                          .avatar-header p{ 
-                            
-                            color:rgba(255,255,255,.75); 
-                            
-                            margin-bottom:50px;
-                          
-                          }
+.avatar-card:hover {
+  transform: translateY(-8px);
+  background: rgba(255, 255, 255, 0.08);
+}
 
-                          .avatar-grid{ 
-                            
-                            display:flex; 
-                            
-                            justify-content:center;
-                            
-                            flex-wrap:wrap;
-                            
-                            gap:30px; 
-                            
-                            margin-bottom:40px;
-                          
-                          }
+.avatar-card.selected {
+  border-color: #b57edc; 
+  box-shadow: 0 0 30px rgba(181, 126, 220, 0.7); 
+}
 
-                          .avatar-card{ 
-                            
-                            width:260px; 
-                            
-                            padding:30px; 
-                            
-                            border-radius:24px; 
-                            
-                            background:rgba(255,255,255,.05); 
-                            
-                            border:2px solid transparent; 
-                            
-                            cursor:pointer; 
-                            
-                            transition:.3s; 
-                          
-                          }
+.avatar-card img {
+  width: 140px;
+  height: 140px; 
+  object-fit: cover;
+  border-radius: 20px; 
+  margin-bottom: 15px;
+}
 
-                          .avatar-card:hover{
-                            
-                            transform:translateY(-8px);
-                            
-                            background:rgba(255,255,255,.08);
-                          
-                          }
+/* Dashboard */
+.dashboard { 
+  display: flex;
+  gap: 24px;
+  height: calc(100vh - 50px); 
+}
 
-                          .avatar-card.selected{
-                            
-                            border-color:#b57edc; 
-                            
-                            box-shadow: 
-                            0 0 30px rgba(181,126,220,.7); 
-                          
-                          }
+.sidebar {
+  width: 280px; 
+  padding: 30px 22px;
+}
 
-                          .avatar-card img{
-                            
-                            width:140px;
-                             height:140px; 
-                             
-                             object-fit:cover;
-                             
-                             border-radius:20px; 
-                             
-                             margin-bottom:15px; 
-                            
-                            
-                            }
+.main-content { 
+  flex: 1; 
+  display: flex; 
+  flex-direction: column;
+  gap: 24px;
+}
 
-                            .avatar-card h3{ 
-                              
-                              margin-bottom:8px;
-                              
-                              font-size:28px; 
-                            
-                            }
+.cards { 
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 22px; 
+}
 
-                            .avatar-card p{ 
-                              
-                              color:rgba(255,255,255,.7); 
-                            
-                            }
+.chat-input {
+  display: flex;
+  gap: 15px; 
+}
 
-                            #continueBtn{
-                              
-                              width:250px;
-                            
-                            }
-                            
-                            .dashboard-body{
-                              
-                              padding:25px;
+.chat-input button {
+  width: 120px;
+}
 
-                            }
+/* Media Query */
+@media (max-width: 900px) { 
+  .dashboard { 
+    flex-direction: column;
+    height: auto; 
+  }
 
-                            .dashboard{ 
-                              
-                              display:flex;
-                              
-                              gap:24px;
-                              
-                              height:calc(100vh - 50px); 
-                            
-                            }
+  .sidebar {
+    width: 100%; 
+  }
 
-                            .sidebar{
-                              
-                              width:280px; 
-                              
-                              padding:30px 22px;
-                             }
+  .cards { 
+    grid-template-columns: 1fr;
+  }
 
-                             .profile-section{ 
-                              
-                              text-align:center; 
-                              
-                              margin-bottom:40px; 
-                            
-                            }
+  .avatar-grid {
+    flex-direction: column; 
+    align-items: center;
+  }
 
-                            .profile-section img{
-                               width:110px; 
-                               height:110px;
-                               
-                               border-radius:50%;
-                               
-                               object-fit:cover; 
-                               
-                               border:3px solid #b57edc; 
-                              
-                              }
-
-                              .profile-section h2{ 
-                                
-                                margin-top:15px;
-                              
-                              }
-                            
-                              .profile-section p{
-                                
-                                color:rgba(255,255,255,.7);
-                                
-                                margin-top:5px;
-                              
-                              }
-
-                              .sidebar ul{ .
-                                
-                                list-style:none; 
-                              
-                              }
-
-                              .sidebar li{
-                                
-                                padding:18px;
-                                
-                                margin-bottom:15px;
-                                
-                                border-radius:18px;
-                                
-                                background:rgba(255,255,255,.05);
-                                
-                                cursor:pointer;
-                                
-                                transition:.3s;
-                              
-                              }
-
-                              .sidebar li:hover{ 
-                                
-                                background:rgba(181,126,220,.25); 
-                                
-                                transform:translateX(5px);
-                              
-                              }
-
-                              .main-content{ 
-                                
-                                flex:1; 
-                                
-                                display:flex; 
-                                
-                                flex-direction:column;
-                                
-                                gap:24px;
-                              
-                              }
-
-                              .top-bar{
-                                
-                                padding:28px;
-                              
-                              }
-
-                              .top-bar h1{
-                                
-                                font-size:42px; 
-                                
-                                -family:'Space Grotesk',sans-serif;
-                              
-                              }
-
-                              .cards{ 
-                                
-                                display:grid;
-                                
-                                grid-template-columns:
-                                 repeat(3,1fr); 
-                                 
-                                 gap:22px; 
-                                
-                                }
-
-                                .card-box{ 
-                                  
-                                  padding:25px; 
-                                
-                                }
-
-                                .card-box h3{ 
-                                  
-                                  margin-bottom:12px;
-                                
-                                }
-
-                                .card-box p{ 
-                                  
-                                  color:rgba(255,255,255,.75); 
-                                
-                                }
-
-                                .chat-panel{
-                                  
-                                  flex:1; 
-                                  
-                                  display:flex; 
-                                  
-                                  flex-direction:column;
-                                  
-                                  padding:30px; 
-                                
-                                }
-
-                                .chat-box{ 
-                                  
-                                  flex:1; 
-                                  
-                                  overflow-y:auto; 
-                                  
-                                  margin-bottom:20px;
-                                
-                                }
-
-                                .message{ max-width:75%;
-
-                                   padding:18px;
-                                   
-                                   border-radius:20px;
-                                   
-                                   margin-bottom:15px;
-                                  
-                                  }
-
-                                  .message.user{
-                                    
-                                    margin-left:auto; 
-                                    
-                                    background: rgba(255,255,255,.08);
-                                  
-                                  }
-
-                                  .message.ai{ 
-                                    
-                                    background: linear-gradient(
-                                       135deg, 
-                                       rgba(181,126,220,.28),
-                                        rgba(125,95,255,.22)
-                                         );
-                                        
-                                        }
-
-                                        .chat-input{
-                                          
-                                          display:flex;
-                                          
-                                          gap:15px; 
-                                        
-                                        }
-
-                                        .chat-input button{
-                                          
-                                          width:120px;3
-                                        
-                                        }
-
-                                        @media(max-width:900px){ 
-                                          
-                                          .dashboard{ 
-                                            
-                                            flex-direction:column;
-                                            
-                                            height:auto; 
-                                          
-                                          }
-
-                                          .sidebar{
-                                            
-                                            width:100%; 
-                                          
-                                          }
-
-                                          .cards{ 
-                                            
-                                            grid-template-columns:1fr;
-                                          
-                                          }
-
-                                          .avatar-grid{
-                                            
-                                            flex-direction:column; 
-                                            
-                                            align-items:center;
-                                          
-                                          }
-
-                                          .splash-card h1{
-                                            
-                                            font-size:60px;
-                                          
-                                          } 
-                                        
-                                        }
-                             
-                        
-                          
+  .splash-card h1 {
+    font-size: 60px;
+  } 
+}

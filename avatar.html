@@ -1,91 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Select Avatar • MISA</title>
-
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Avatar &bull; MISA.SPACE</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="avatar-body">
-
-  <div class="avatar-container glass-card">
-
-    <div class="avatar-header">
-      <h1>Choose Your AI Companion ✨</h1>
-
+  <main class="avatar-shell">
+    <section class="avatar-hero">
+      <p class="eyebrow">Companion setup</p>
+      <h1>Choose your MISA</h1>
       <p>
-        Select the personality that will guide your workspace.
+        Pick the presence you want beside you in the workspace.
       </p>
-    </div>
+    </section>
 
-    <div class="avatar-grid">
-
-      <!-- MIRA -->
-
-      <div
+    <section class="avatar-grid" aria-label="Choose an AI companion">
+      <button
         class="avatar-card"
+        type="button"
         data-avatar="Mira"
-        data-image="assets/avatars/a1.png">
+        data-image="assets/avatars/a1.png"
+        data-tone="Warm strategist">
+        <img src="assets/avatars/a1.png" alt="Mira">
+        <span class="avatar-name">Mira</span>
+        <span class="avatar-role">Warm strategist</span>
+        <span class="avatar-copy">Calm planning, thoughtful priorities, elegant focus.</span>
+      </button>
 
-        <img
-          src="assets/avatars/a1.png"
-          alt="Mira">
-
-        <h3>Mira</h3>
-
-        <p>Elegant strategist AI</p>
-
-      </div>
-
-      <!-- YUKI -->
-
-      <div
+      <button
         class="avatar-card"
+        type="button"
         data-avatar="Yuki"
-        data-image="assets/avatars/a2.png">
+        data-image="assets/avatars/a2.png"
+        data-tone="Creative operator">
+        <img src="assets/avatars/a2.png" alt="Yuki">
+        <span class="avatar-name">Yuki</span>
+        <span class="avatar-role">Creative operator</span>
+        <span class="avatar-copy">Fast ideas, clean structure, steady momentum.</span>
+      </button>
 
-        <img
-          src="assets/avatars/a2.png"
-          alt="Yuki">
-
-        <h3>Yuki</h3>
-
-        <p>Calm creative assistant</p>
-
-      </div>
-
-      <!-- KAI -->
-
-      <div
+      <button
         class="avatar-card"
+        type="button"
         data-avatar="Kai"
-        data-image="assets/avatars/a3.png">
+        data-image="assets/avatars/a3.png"
+        data-tone="Sharp navigator">
+        <img src="assets/avatars/a3.png" alt="Kai">
+        <span class="avatar-name">Kai</span>
+        <span class="avatar-role">Sharp navigator</span>
+        <span class="avatar-copy">Direct answers, clear next moves, futuristic energy.</span>
+      </button>
+    </section>
 
-        <img
-          src="assets/avatars/a3.png"
-          alt="Kai">
-
-        <h3>Kai</h3>
-
-        <p>Fast futuristic operator</p>
-
-      </div>
-
-    </div>
-
-    <button
-      id="continueBtn"
-      disabled>
-      Continue →
-    </button>
-
-  </div>
+    <footer class="avatar-actions">
+      <p id="avatarHint">Select a companion to continue.</p>
+      <button id="continueBtn" type="button" disabled>Continue</button>
+    </footer>
+  </main>
 
   <script src="script.js"></script>
-
 </body>
 </html>

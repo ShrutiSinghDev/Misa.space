@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import OpenAI from "openai";
+import { createClient } from "@supabase/supabase-js";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 
@@ -20,9 +21,71 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(projectRoot));
 
+const supabaseUrl =
+  process.env.SUPABASE_URL;
+
+const supabaseKey =
+  process.env.SUPABASE_SERVICE_ROLE_KEY ||
+  process.env.SUPABASE_ANON_KEY;
+
+const supabase =
+  supabaseUrl && supabaseKey
+    ? createClient(supabaseUrl, supabaseKey)
+    : null;
+
 const client = new OpenAI({
   apiKey: process.env.GROQ_API_KEY,
   baseURL: "https://api.groq.com/openai/v1"
+});
+
+app.get("/chat/history", async (req, res) => {
+
+  const userEmail =
+    normalizeEmail(req.query.email);
+
+  if (!userEmail) {
+    return res.status(400).json({
+      error: "Email is required"
+    });
+  }
+
+  if (!supabase) {
+    return res.json({
+      messages: []
+    });
+  }
+
+  try {
+
+    const { data, error } =
+      await supabase
+        .from("chat_messages")
+        .select("role, content, created_at")
+        .eq("user_email", userEmail)
+        .order("created_at", {
+          ascending: true
+        })
+        .limit(100);
+
+    if (error) {
+      throw error;
+    }
+
+    res.json({
+      messages: data || []
+    });
+
+  } catch (error) {
+
+    console.error("CHAT HISTORY ERROR:");
+    console.error(error);
+
+    res.status(500).json({
+      error: "Could not load chat history"
+    });
+
+  }
+
 });
 
 app.post("/chat", async (req, res) => {
@@ -33,7 +96,11 @@ app.post("/chat", async (req, res) => {
 
   try {
 
-    const userMessage = req.body.message;
+    const userMessage =
+      req.body.message;
+
+    const userEmail =
+      normalizeEmail(req.body.email);
 
     if (!userMessage) {
       return res.status(400).json({
@@ -45,6 +112,14 @@ app.post("/chat", async (req, res) => {
       return res.status(500).json({
         error: "GROQ_API_KEY is missing"
       });
+    }
+
+    if (userEmail) {
+      await saveChatMessage(
+        userEmail,
+        "user",
+        userMessage
+      );
     }
 
     const completion =
@@ -74,6 +149,14 @@ app.post("/chat", async (req, res) => {
       });
     }
 
+    if (userEmail) {
+      await saveChatMessage(
+        userEmail,
+        "ai",
+        reply
+      );
+    }
+
     res.json({
       reply
     });
@@ -96,6 +179,39 @@ app.post("/chat", async (req, res) => {
 }
 
 });
+
+async function saveChatMessage(userEmail, role, content) {
+
+  if (!supabase) return;
+
+  const { error } =
+    await supabase
+      .from("chat_messages")
+      .insert({
+        user_email: userEmail,
+        role,
+        content
+      });
+
+  if (error) {
+    console.error("CHAT SAVE ERROR:");
+    console.error(error);
+  }
+
+}
+
+function normalizeEmail(email) {
+
+  if (typeof email !== "string") {
+    return "";
+  }
+
+  return email
+    .trim()
+    .toLowerCase();
+
+}
+
 app.listen(3000, () => {
 
   console.log(

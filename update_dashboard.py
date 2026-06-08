@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+html_content = """<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -13,32 +13,30 @@
   <div class="stars3"></div>
 
   <main class="dashboard">
-    <aside class="dashboard-sidebar">
-      <div class="profile-card">
-        <div class="profile-header">
-          <div class="profile-avatar">
-            <img id="profileImage" src="assets/avatars/a1.png" alt="Selected avatar">
-          </div>
-
-          <div class="profile-meta">
-            <p class="eyebrow">LIVE WORKSPACE</p>
-            <h1 id="welcomeText">Welcome back</h1>
-            <p class="greeting-subtitle" id="greetingSubtitle">Settle in and let's shape something thoughtful today.</p>
+    <section class="dashboard-hero">
+      <div class="hero-container">
+        <div class="hero-avatar">
+          <img id="profileImage" src="assets/avatars/a1.png" alt="Selected avatar">
+        </div>
+        
+        <div class="hero-content">
+          <p class="eyebrow">Live workspace</p>
+          <h1 id="welcomeText">Welcome back</h1>
+          <p class="greeting-subtitle">Settle in and let's shape something thoughtful today.</p>
+          
+          <div class="profile-actions">
+            <button class="action-button primary" id="newChatBtn">New chat</button>
+            <button class="action-button secondary" id="historyBtn">Previous chat</button>
+            <button class="action-button ghost" id="settingsBtn">Settings</button>
           </div>
         </div>
 
-        <div class="status-pill">
+        <div class="session-chip">
           <span></span>
           MISA is listening
         </div>
-
-        <div class="sidebar-actions">
-          <button class="action-button primary" id="newChatBtn">New chat</button>
-          <button class="action-button secondary" id="historyBtn">Previous chat</button>
-          <button class="action-button ghost" id="settingsBtn">Settings</button>
-        </div>
       </div>
-    </aside>
+    </section>
 
     <section class="chat-panel">
       <div class="chat-header">
@@ -70,3 +68,9 @@
   <script src="script.js"></script>
 </body>
 </html>
+"""
+
+with open('c:\\Users\\SHRUTI SINGH\\Desktop\\misa-space\\dashboard.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+print("Dashboard updated successfully!")

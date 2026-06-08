@@ -2,23 +2,43 @@
 // LOGIN
 // ======================================================
 
-const loginBtn =
-  document.getElementById("loginBtn");
+const loginForm =
+  document.getElementById("loginForm");
 
-if (loginBtn) {
+if (loginForm) {
 
-  loginBtn.addEventListener("click", () => {
+  loginForm.addEventListener("submit", (event) => {
+
+    event.preventDefault();
 
     const email =
       document.getElementById("email").value.trim();
 
+    const password =
+      document.getElementById("password").value.trim();
+
+    const errorMessage =
+      document.getElementById("errorMessage");
+
     if (email === "") {
 
-      alert("Please enter your email");
+      errorMessage.innerText =
+        "Please enter your email.";
 
       return;
 
     }
+
+    if (password === "") {
+
+      errorMessage.innerText =
+        "Please enter your password.";
+
+      return;
+
+    }
+
+    errorMessage.innerText = "";
 
     localStorage.setItem(
       "misaUser",
@@ -42,6 +62,9 @@ const avatarCards =
 const continueBtn =
   document.getElementById("continueBtn");
 
+const avatarHint =
+  document.getElementById("avatarHint");
+
 let selectedAvatar = false;
 
 avatarCards.forEach(card => {
@@ -64,7 +87,17 @@ avatarCards.forEach(card => {
       card.dataset.image
     );
 
+    localStorage.setItem(
+      "misaAvatarTone",
+      card.dataset.tone
+    );
+
     selectedAvatar = true;
+
+    if (avatarHint) {
+      avatarHint.innerText =
+        `${card.dataset.avatar} is ready for your workspace.`;
+    }
 
     if (continueBtn) {
       continueBtn.disabled = false;
@@ -94,38 +127,35 @@ if (continueBtn) {
 const profileImage =
   document.getElementById("profileImage");
 
-const profileName =
-  document.getElementById("profileName");
-
 const welcomeText =
   document.getElementById("welcomeText");
 
+const greetingSubtitle =
+  document.getElementById("greetingSubtitle");
+
 if (
   profileImage &&
-  profileName &&
   welcomeText
 ) {
 
-  const avatarName =
-    localStorage.getItem("misaAvatar");
-
   const avatarImage =
-    localStorage.getItem("misaAvatarImage");
+    localStorage.getItem("misaAvatarImage") || "assets/avatars/a1.png";
 
   const user =
     localStorage.getItem("misaUser") || "user@example.com";
 
   profileImage.src =
-    avatarImage || "assets/avatars/a1.png";
-
-  profileName.innerText =
-    avatarName || "AI Companion";
+    avatarImage;
 
   const rawName =
     user.split("@")[0];
 
   let firstName =
-    rawName.replace(/[0-9]/g, "");
+    rawName
+      .replace(/[0-9]/g, "")
+      .split(/[_\-\.]/)[0]
+      .toLowerCase()
+      .replace(/^(shruti).*/, "$1");
 
   firstName =
     firstName.charAt(0).toUpperCase() +
@@ -134,24 +164,26 @@ if (
   const hour =
     new Date().getHours();
 
-  let greeting = "Welcome";
+  let greeting = "Welcome back";
+  let subtitle = "Let's create something beautiful today.";
 
   if (hour < 12) {
-
-    greeting = "Good Morning";
-
+    greeting = "Good morning";
+    subtitle = "Ready to start the day with intention?";
   } else if (hour < 18) {
-
-    greeting = "Good Afternoon";
-
+    greeting = "Good afternoon";
+    subtitle = "How's your momentum? Let's keep building.";
   } else {
-
-    greeting = "Good Evening";
-
+    greeting = "Good evening";
+    subtitle = "Winding down thoughtfully, I see. What's on your mind?";
   }
 
   welcomeText.innerText =
-    `${greeting}, ${firstName} ✨`;
+    `${greeting}, ${firstName}`;
+
+  if (greetingSubtitle) {
+    greetingSubtitle.innerText = subtitle;
+  }
 
 }
 
@@ -168,13 +200,35 @@ const userInput =
 const chatBox =
   document.getElementById("chatBox");
 
+const chatPresence =
+  document.getElementById("chatPresence");
+
+const newChatBtn =
+  document.getElementById("newChatBtn");
+
+const historyBtn =
+  document.getElementById("historyBtn");
+
+const settingsBtn =
+  document.getElementById("settingsBtn");
+
 const chatApiUrl =
   window.location.hostname === "localhost" ||
-  window.location.hostname === "127.0.0.1"
+  window.location.hostname === "127.0.0.1" ||
+  window.location.hostname === ""
     ? "http://localhost:3000/chat"
     : "/api/chat";
 
-if(sendBtn){
+const chatHistoryUrl =
+  `${chatApiUrl}/history`;
+
+if (
+  sendBtn &&
+  userInput &&
+  chatBox
+) {
+
+  loadChatHistory();
 
   sendBtn.addEventListener(
     "click",
@@ -182,10 +236,10 @@ if(sendBtn){
   );
 
   userInput.addEventListener(
-    "keypress",
-    (e) => {
+    "keydown",
+    (event) => {
 
-      if(e.key === "Enter"){
+      if (event.key === "Enter") {
 
         sendMessage();
 
@@ -196,82 +250,247 @@ if(sendBtn){
 
 }
 
-async function sendMessage(){
+// Action button handlers
+if (newChatBtn) {
+  newChatBtn.addEventListener("click", () => {
+    console.log("New chat clicked");
+    chatBox.innerHTML = '<div class="message ai"><span class="message-author">MISA</span><p>Hello. I am here with you. Tell me what you want to build, plan, fix, or understand, and I will help you move through it clearly.</p></div>';
+    userInput.focus();
+  });
+}
+
+if (historyBtn) {
+  historyBtn.addEventListener("click", () => {
+    console.log("History clicked");
+    loadChatHistory();
+  });
+}
+
+if (settingsBtn) {
+  settingsBtn.addEventListener("click", () => {
+    console.log("Settings clicked");
+    alert("Settings coming soon!");
+  });
+}
+
+async function sendMessage() {
 
   const message =
     userInput.value.trim();
 
-  if(message === "") return;
+  if (message === "") return;
 
-  // USER MESSAGE
-
-  const userDiv =
-    document.createElement("div");
-
-  userDiv.className =
-    "message user";
-
-  userDiv.innerText =
-    message;
-
-  chatBox.appendChild(userDiv);
+  addMessage(
+    "user",
+    message
+  );
 
   userInput.value = "";
 
-  // AI THINKING
-
   const aiDiv =
-    document.createElement("div");
+    addMessage(
+      "ai",
+      "MISA is thinking..."
+    );
 
-  aiDiv.className =
-    "message ai";
+  setPresence("Thinking");
 
-  aiDiv.innerText =
-    "MISA is thinking...";
+  try {
 
-  chatBox.appendChild(aiDiv);
-
-  chatBox.scrollTop =
-    chatBox.scrollHeight;
-
-  try{
-
-    console.log("Sending:", message);
-
-const response =
-  await fetch(
-    chatApiUrl,
+    const response =
+      await fetch(
+        chatApiUrl,
         {
-          method:"POST",
-
-          headers:{
-            "Content-Type":"application/json"
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
           },
-
-          body:JSON.stringify({
-            message:message
+          body: JSON.stringify({
+            message: message,
+            email: getCurrentUserEmail()
           })
         }
       );
 
-      console.log("Status:", response.status);
-
-
     const data =
-  await response.json();
+      await response.json();
 
-console.log("SERVER RESPONSE:");
-console.log(data);
+    const reply =
+      data.reply ||
+      data.response ||
+      data.message ||
+      getLocalReply(message);
 
-aiDiv.innerText =
-  data.reply || data.response || data.error || data.message || "No response";
+    renderAiMessage(
+      aiDiv,
+      reply
+    );
 
-  }catch(error){
+  } catch (error) {
 
     console.log(error);
 
-    aiDiv.remove();
+    renderAiMessage(
+      aiDiv,
+      getLocalReply(message)
+    );
+
+  } finally {
+
+    setPresence("Ready");
+
+    chatBox.scrollTop =
+      chatBox.scrollHeight;
 
   }
+
+}
+
+async function loadChatHistory() {
+
+  const email =
+    getCurrentUserEmail();
+
+  if (!email) return;
+
+  try {
+
+    const response =
+      await fetch(
+        `${chatHistoryUrl}?email=${encodeURIComponent(email)}`
+      );
+
+    if (!response.ok) return;
+
+    const data =
+      await response.json();
+
+    if (
+      !Array.isArray(data.messages) ||
+      data.messages.length === 0
+    ) {
+      return;
+    }
+
+    chatBox.innerHTML = "";
+
+    data.messages.forEach(message => {
+
+      addMessage(
+        message.role,
+        message.content
+      );
+
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+  }
+
+}
+
+function addMessage(type, text) {
+
+  const messageDiv =
+    document.createElement("div");
+
+  messageDiv.className =
+    `message ${type}`;
+
+  if (type === "ai") {
+
+    renderAiMessage(
+      messageDiv,
+      text
+    );
+
+  } else {
+
+    messageDiv.innerText =
+      text;
+
+  }
+
+  chatBox.appendChild(messageDiv);
+
+  chatBox.scrollTop =
+    chatBox.scrollHeight;
+
+  return messageDiv;
+
+}
+
+function renderAiMessage(element, text) {
+
+  element.innerHTML =
+    `<span class="message-author">MISA</span><p>${escapeHtml(text)}</p>`;
+
+}
+
+function setPresence(text) {
+
+  if (chatPresence) {
+    chatPresence.innerText =
+      text;
+  }
+
+}
+
+function getLocalReply(message) {
+
+  const avatarName =
+    localStorage.getItem("misaAvatar") || "MISA";
+
+  const lowerMessage =
+    message.toLowerCase();
+
+  if (
+    lowerMessage.includes("task") ||
+    lowerMessage.includes("plan")
+  ) {
+
+    return `${avatarName} here. I would start by naming the outcome, choosing the next three actions, and doing the smallest one first. Tell me the goal and I will turn it into a clean plan.`;
+
+  }
+
+  if (
+    lowerMessage.includes("code") ||
+    lowerMessage.includes("bug") ||
+    lowerMessage.includes("fix")
+  ) {
+
+    return `${avatarName} here. Share the error or the file you are working in, and I will help trace the cause, patch it, and check the behavior step by step.`;
+
+  }
+
+  if (
+    lowerMessage.includes("hello") ||
+    lowerMessage.includes("hi")
+  ) {
+
+    return "Hello. I am here and ready. What are we making today?";
+
+  }
+
+  return `${avatarName} heard you. I can help you shape this into actions, write content, debug code, or think through the decision. Give me one more detail and I will make it concrete.`;
+
+}
+
+function getCurrentUserEmail() {
+
+  return localStorage.getItem("misaUser") || "";
+
+}
+
+function escapeHtml(value) {
+
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 
 }
